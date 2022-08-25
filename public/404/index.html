@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:url" content="https://h-ngm-n.typicaldevs.co/">
+
+  <meta property="og:title" content="H⏹️NGM⏹️N - Multiplayer Hangman Game">
+  <meta property="og:image" content="https://h-ngm-n.typicaldevs.co/images/hngmnbanner-l.png">
+
+  <meta name="twitter:image:src" content="https://h-ngm-n.typicaldevs.co/images/hngmnbanner-l.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:description" content="An interactive multiplayer hangman game made for playing with friends!">
+
+  <link rel="icon" type="image/png" href="images/hngmnicon.png">
+  <title>H⏹️NGM⏹️N</title>
+  
+  <link rel="stylesheet" href="/css/style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
+</head>
+<body>
+  <div id="letters" class="letter-renderer">
+    <div class="falling-letter" id="falling-letter" style="display: none;">
+     A
+    </div>
+  </div>
+
+  <div class="disconnected-menu" id="disconnected-menu">
+    <h1>404: Failed to fail, I am not sure why.</h1>
+    <div class="centered-horizontal margin-15 retry-connection-button">
+      <button onclick="window.location = 'https://h-ngm-n.typicaldevs.co/'">CHOOSE BETTER LETTERS</button>
+    </div>
+    <div class="centered-horizontal margin-15 retry-connection-button">
+      <button onclick="localStorage.setItem('theme', 'h4x0r'); window.location = 'https://h-ngm-n.typicaldevs.co/'">1UL G3T H4X3D</button>
+    </div>
+  </div>
+
+  <script src="/js/404.js"></script>
+</body>
+</html>

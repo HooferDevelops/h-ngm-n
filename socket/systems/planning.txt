@@ -1,0 +1,14 @@
+Round Started
+  - Notify all users that the round started.
+  - Pick random user to choose the word/phrase.
+  - Prompt the user to choose said phrase.
+Queue Scheduler
+  - Pick the next user in the list to guess the word, 
+  ensure that they are not the word provider in the first place.
+  - Give the player the prompt to choose the word.
+Time Limit Reached
+  - Tell the queue scheduler to continue onto the next user.
+Player Disconnected
+  - Detect if user was picking the word, if they were,
+  pick a randomly generated phrase.
+  - Tell queue scheduler to continue onto the next user.

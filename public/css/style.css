@@ -1,0 +1,672 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+:root, :root.light {
+    --main-color:rgb(107, 91, 255);
+    --background-color: rgb(230, 227, 230);
+    --input-background: rgb(211, 211, 211);
+    --input-outline: rgb(165, 165, 165);
+		--scroller-background: rgb(200, 200, 200);
+    --font-color: rgb(36, 36, 36);
+    --font-color-dark: rgb(109, 109, 109);
+}
+
+:root.dark {
+    --main-color:rgb(187, 255, 0);
+    --background-color: rgb(34, 31, 34);
+    --input-background: rgb(63, 57, 63);
+    --input-outline: rgb(83, 76, 83);
+		--scroller-background: rgb(24, 20, 24);
+    --font-color: rgb(255, 255, 255);
+    --font-color-dark: rgb(143, 142, 142);
+}
+
+:root.mio {
+    --main-color:rgb(169, 64, 255);
+    --background-color: rgb(211, 116, 211);
+    --input-background: rgb(212, 74, 212);
+    --input-outline: rgb(177, 53, 177);
+    --scroller-background: rgb(177, 53, 177);
+    --font-color: rgb(211, 211, 211);
+    --font-color-dark: rgb(177, 177, 177);
+}
+
+:root.wizard {
+    --main-color:#fcd53f;
+    --background-color: rgb(106, 156, 248);
+    --input-background: rgb(81, 144, 228);
+    --scroller-background: rgb(47, 138, 212);
+    --input-outline: rgb(53, 96, 177);
+    --font-color: rgb(248, 248, 248);
+    --font-color-dark: rgb(197, 197, 197);
+}
+
+:root.h4x0r {
+    --main-color:lime;
+    --background-color: black;
+    --input-background: rgb(15, 15, 15);
+    --scroller-background: lime;
+    --input-outline: rgb(35, 35, 35);
+    --font-color: #fff;
+    --font-color-dark: #efefef;
+}
+
+:root.kechiph {
+    --main-color:rgb(127, 42, 202);
+    --background-color: rgb(20, 6, 37);
+    --input-background: rgb(11, 8, 22);
+    --scroller-background: rgb(123, 81, 161);
+    --input-outline: rgb(24, 14, 37);
+    --font-color: #fff;
+    --font-color-dark: #efefef;
+}
+
+:root.h4x0r .game-title div:nth-child(2) h1 {
+  font-size: 0 !important;
+} :root.h4x0r .game-title div:nth-child(2) h1::after { font-size: 25px; content: "0"; }
+
+:root.h4x0r .game-title div:nth-child(3) h1 {
+  font-size: 0 !important;
+} :root.h4x0r .game-title div:nth-child(3) h1::after { font-size: 25px; content: "X"; }
+
+:root.h4x0r .game-title div:nth-child(4) h1 {
+  font-size: 0 !important;
+} :root.h4x0r .game-title div:nth-child(4) h1::after { font-size: 25px; content: "R"; }
+
+:root.h4x0r .game-title div:nth-child(6) h1 {
+  font-size: 0 !important;
+} :root.h4x0r .game-title div:nth-child(6) h1::after { font-size: 25px; content: "0"; }
+
+:root.typical {
+    --main-color:rgb(156, 156, 156);
+    --background-color: rgb(134, 134, 134);
+    --input-background: rgb(92, 92, 92);
+    --scroller-background: rgb(66, 66, 66);
+    --input-outline: rgb(83, 83, 83);
+    --font-color: #fff;
+    --font-color-dark: #efefef;
+}
+
+* {
+  /*font-family: 'Roboto Mono', monospace;*/
+  font-family: 'Finger Paint';
+  user-select: none;
+  font-size: 21px;
+  text-transform: uppercase;
+}
+
+body {
+  /* overflow: hidden; */
+  background-color: var(--background-color);
+  margin: 0;
+  transition: .25s linear;
+  width: 100%;
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.margin-5 {
+  margin: 5px;
+}
+
+.margin-15 {
+  margin: 15px;
+}
+
+.margin-25 {
+  margin: 25px;
+}
+
+/* changes styling of all scrollers */
+::-webkit-scrollbar {
+	background: transparent;
+  width: .5em;
+  height: .5em;
+}
+::-webkit-scrollbar-thumb { 
+	background-color: var(--scroller-background);
+}
+
+.centered-horizontal {
+  display: flex;
+  justify-content: center;
+}
+
+.padded {
+  margin-bottom: 50px;
+  color: var(--main-color);
+}
+
+.centered-text {
+  text-align: center;
+}
+
+.game-title .box {
+	background-color: var(--background-color);
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  width: 30px;
+  height: 30px;
+}
+
+.box h1 {
+  color: var(--main-color);
+  line-height: 25px;
+  font-size: 25px;
+  text-align: center;
+  height: 100%;
+  margin-top: 2px !important;
+  margin: 0;
+}
+
+input {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  color: var(--font-color);
+
+  width: 200px;
+
+  text-align: center;
+  transition: .25s linear;
+}
+
+input::placeholder {
+  color: var(--font-color-dark);
+}
+
+input:hover {
+  background-color: var(--input-outline);
+}
+
+input:focus {
+  background-color: var(--input-outline);
+}
+
+.name-input {
+  height: 35px;
+}
+
+.join-code {
+  height: 45px;
+}
+
+.join-code input { 
+  font-size: 30px;
+}
+
+.create-lobby button, .join-lobby button {
+  width: 150px;
+  height: 45px;
+
+  font-size: 16px;
+}
+
+.tutorial-button button {
+  width: 185px;
+  height: 30px;
+
+  font-size: 14px; 
+}
+
+button {
+  appearance: none;
+  -webkit-appearance: none;
+  
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  color: var(--font-color);
+
+  text-align: center;
+
+  transition: .25s linear;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: var(--input-outline);
+}
+
+.join-create-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.lobby-queue-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.disconnected-menu {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.disconnected-menu h1 {
+  text-align: center;
+  color: var(--main-color);
+}
+
+.error-banner {
+  background-color: var(--main-color);
+  width: 100%;
+  min-height: 25px;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0px;
+
+  position: relative;
+  z-index: 5;
+}
+
+.error-banner p {
+  margin: 0px;
+  padding: 0px;
+  padding-left: 5px !important;
+  text-align: center;
+}
+
+.credits {
+  position: fixed; 
+  bottom: 0;
+  right: 0;
+
+  margin: 5px;
+
+  color: var(--font-color-dark);
+
+  text-align: right;
+
+  font-size: 10px;
+}
+
+.credits a {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  
+  transition: .25s linear;
+
+  font-size: 10px;
+}
+
+.credits a:hover {
+  color: var(--font-color);
+}
+
+
+.theme-toggle {
+  position: fixed; 
+  bottom: 0;
+
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  color: var(--font-color);
+
+  text-align: center;
+
+  transition: .25s linear;
+
+  width: 40px;
+  height: 40px;
+
+  margin: 5px;
+}
+
+.theme-toggle:hover {
+  cursor: pointer;
+  background-color: var(--input-outline);
+}
+
+.theme-toggle svg {
+  position: absolute;
+  top: 2px;
+  width: 35px;
+  height: 35px;
+  fill: var(--font-color);
+
+  transition: .25s linear;
+}
+
+.falling-letter {
+  position: fixed;
+  font-size: 50px;
+  color: var(--input-background);
+}
+
+.lobby-queue-menu .title {
+  color: var(--font-color-dark);
+  transition: 0.25s linear;
+}
+
+.lobby-queue-menu .code-title {
+  height: 36px;
+}
+
+.lobby-user-section {
+  background-color: var(--background-color);
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  padding: 15px;
+}
+
+.lobby-queue-menu svg {
+  fill: var(--main-color);
+}
+
+.lobby-user-section h2 {
+  margin: 0;
+  padding: 0;
+  color: var(--font-color-dark);
+}
+
+.lobby-queue-menu #queue-code {
+  user-select: all;
+
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  color: var(--font-color);
+
+  padding-left: 3px;
+  padding-right: 3px;
+
+  line-height: 32px;
+  font-size: 18px;
+
+  margin-left: 5px;
+
+  text-align: center;
+
+  font-family: 'Roboto Mono' !important;
+}
+
+.lobby-queue-menu #queue-link {
+  fill: var(--main-color);
+
+  height: 32px;
+  width: 26px;
+
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  color: var(--font-color);
+
+  padding-left: 3px;
+  padding-right: 3px;
+
+  text-align: center;
+  margin-left: 5px;
+
+  cursor: pointer;
+
+  transition: 0.25s linear;
+}
+
+.lobby-queue-menu #queue-link:hover {
+  background-color: var(--input-outline);
+}
+
+#leave-button {
+ font-size: 18px; 
+}
+
+.queue-user-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  overflow-y: scroll;
+  max-height: 30vh;
+}
+
+.queue-user-list p {
+  margin: 10px;
+  padding: 0;
+  color: var(--font-color-dark);
+  font-size: 100%;
+  text-align: center;
+}
+
+.lobby-queue-menu .admin-icon-text {
+  color: var(--main-color);
+  margin: 0;
+  padding: 0;
+  text-align: right;
+}
+
+.round-menu {
+  position: absolute;
+  margin-top: 15px;
+  left: 50%;
+  transform: translate(-50%,  0);
+  width: 75%;
+  height: 35px;
+}
+
+.user-list {
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  color: var(--font-color);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.user-list .round-user {
+  padding: 5px 5px 5px 5px;
+  color: var(--font-color);
+}
+
+.user-list .current-turn {
+  color: var(--main-color);
+}
+
+.round-info {
+  position: absolute;
+  color: var(--font-color);
+  margin: 5px;
+  width: 75%;
+  max-height: 36px;
+  min-height: 36px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.round-info > * {
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  box-shadow: inset 0px 0px 0px 0px black;
+  margin: 0;
+}
+
+.round-info svg {
+  fill: var(--font-color);
+  width: 32px;
+  height: 32px;
+}
+
+.round-info #round-info-time {
+  font-size: 10px;
+  position: absolute;
+}
+
+.round-info .text-container {
+  display : flex;
+  align-items : center;
+  margin-left: 5px;
+  max-width: 75%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.round-info #round-info-text {
+  max-height: 32px;
+  white-space: nowrap;
+  text-align: center;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.round-info p {
+  color: var(--font-color);
+}
+
+.round-phrase-menu {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translate(-50%,  0);
+
+  color: var(--font-color);
+}
+
+.keyboard {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  height: 50%;
+}
+
+.keyboard .row {
+  width: 95vw;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.keyboard .key {
+  width: 5vh;
+  height: 5vh;
+  text-align: center;
+  line-height: 5vh;
+  font-size: 2vh;
+  
+  margin: 3px;
+
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--input-background);
+  
+  transition: .25s linear;
+}
+
+.keyboard .key:hover {
+  cursor: pointer;
+  background-color: var(--input-outline);
+}
+
+.round-word-menu {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%,  0);
+
+  color: var(--font-color);
+
+  width: 75%;
+  height: calc(5vh + 5px);
+  
+  padding: 15px;
+}
+
+.round-word-menu .key {
+  width: 4vh;
+  height: 4vh;
+  text-align: center;
+  line-height: 4vh;
+  font-size: 2vh;
+  
+  margin: 3px;
+
+  outline: none;
+  border: 2px dashed var(--input-outline);
+  border-radius: .5vh;
+  background-color: var(--background-color);
+  
+  transition: .25s linear;
+}
+
+.round-word-menu .spacer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  width: 100%;
+  height: calc(5vh + 5px);
+  text-align: center;
+  line-height: 4vh;
+  font-size: 2vh;
+  
+  margin: 3px;
+
+  opacity: 1;
+  
+  transition: .25s linear;
+}
+
+.round-guess-menu {
+  position: absolute;
+  bottom: 8vh;
+  left: 50%;
+  transform: translate(-50%,  0);
+  color: var(--font-color);
+}
+
+.round-hangman {
+  position: absolute;
+  left: 50%;
+  bottom: 8vh;
+
+  transform: translate(-50%,  0);
+
+  color: var(--font-color);
+
+  height: 25vh;
+}
+
+.round-hangman svg {
+  width: 100%;
+  height: 100%;
+}
+
+.round-hangman path {
+  stroke: var(--main-color);
+}

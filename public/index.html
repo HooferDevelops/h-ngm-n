@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:url" content="https://h-ngm-n.typicaldevs.co/">
+
+	<meta property="og:title" content="H⏹️NGM⏹️N - Multiplayer Hangman Game">
+	<meta property="og:image" content="https://h-ngm-n.typicaldevs.co/images/hngmnbanner-f.png">
+
+	<meta name="twitter:image:src" content="https://h-ngm-n.typicaldevs.co/images/hngmnbanner-f.png">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:description" content="An interactive multiplayer hangman game made for playing with friends!">
+
+	<link rel="icon" type="image/png" href="images/hngmnicon.png">
+	<title>H⏹️NGM⏹️N</title>
+
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
+</head>
+
+<body>
+	<div class="error-banner" id="error-banner" style="display: none;">
+		<p id="error-display-text">ERROR: Failed to fail, I am not sure why.</p>
+	</div>
+
+	<div id="letters" class="letter-renderer">
+		<div class="falling-letter" id="falling-letter" style="display: none;">
+			A
+		</div>
+	</div>
+
+	<div class="disconnected-menu" id="disconnected-menu" style="display: none;">
+		<h1>The connection to the server has been lost.</h1>
+		<div class="centered-horizontal margin-15 retry-connection-button">
+			<button class="sound-click" onclick="location.reload();">RETRY CONNECTION</button>
+    </div>
+  </div>
+
+  <div class="join-create-menu" id="join-menu" style="display: none;">
+
+    <div class="main">
+      <div class="game-title centered-horizontal">
+        <div class="box margin-5">
+          <h1>H</h1>
+        </div>
+        <div class="box margin-5">
+          <h1> </h1>
+        </div>
+        <div class="box margin-5">
+          <h1>N</h1>
+        </div>
+        <div class="box margin-5">
+          <h1>G</h1>
+        </div>
+        <div class="box margin-5">
+          <h1>M</h1>
+        </div>
+        <div class="box margin-5">
+          <h1> </h1>
+        </div>
+        <div class="box margin-5">
+          <h1>N</h1>
+        </div>
+      </div>
+
+      <div class="centered-horizontal margin-5 tutorial-button">
+        <button class="sound-click" onclick="window.location = 'https://www.youtube.com/watch?v=cGOeiQfjYPk';">HOW TO PLAY</button>
+      </div>
+
+      <br>
+
+      <div class="centered-horizontal margin-15 join-code">
+        <input id="join-code" type="text" placeholder ="JOIN CODE" autocomplete="off">
+      </div>
+
+      <div class="centered-horizontal margin-15 name-input">
+        <input id="display-name" type="text" placeholder ="DISPLAY NAME" autocomplete="off">
+      </div>
+      
+      <br>
+
+      <div class="centered-horizontal margin-15 join-lobby">
+        <button class="sound-click" id="join-button">JOIN LOBBY</button>
+      </div>
+      
+      <div class="centered-horizontal margin-15 create-lobby">
+        <button class="sound-click" id="create-button">CREATE LOBBY</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="lobby-queue-menu" id="queue-menu" style="display: none;">
+    <div class="main">
+      <div class="game-title centered-horizontal">
+          <div class="box margin-5">
+            <h1>H</h1>
+          </div>
+          <div class="box margin-5">
+            <h1> </h1>
+          </div>
+          <div class="box margin-5">
+            <h1>N</h1>
+          </div>
+          <div class="box margin-5">
+            <h1>G</h1>
+          </div>
+          <div class="box margin-5">
+            <h1>M</h1>
+          </div>
+          <div class="box margin-5">
+            <h1> </h1>
+          </div>
+          <div class="box margin-5">
+            <h1>N</h1>
+          </div>
+      </div>
+
+      <h1 class="centered-text title">INVITE SOME PLAYERS DURING QUEUE!</h1>
+      <h2 class="centered-text centered-horizontal title code-title">LOBBY CODE: <b id="queue-code" style="color: var(--main-color);"></b> <svg id="queue-link" class="sound-click" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-2zm-3-4h8v2H8z"/></svg></h2>
+
+      <div class="lobby-user-section">
+        <h2 class="centered-text title">Lobby Users</h2>
+        
+        <div class="queue-user-list scroller" id="queue-user-list">
+        </div>
+      </div>
+
+
+      <div id="queue-host-only" style="display: none;">
+        <div class="admin-icon centered-horizontal margin-5">
+          <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><g><rect fill="none" height="24" width="24"/></g><g><g><circle cx="17" cy="15.5" fill-rule="evenodd" r="1.12"/><path d="M17,17.5c-0.73,0-2.19,0.36-2.24,1.08c0.5,0.71,1.32,1.17,2.24,1.17 s1.74-0.46,2.24-1.17C19.19,17.86,17.73,17.5,17,17.5z" fill-rule="evenodd"/><path d="M18,11.09V6.27L10.5,3L3,6.27v4.91c0,4.54,3.2,8.79,7.5,9.82 c0.55-0.13,1.08-0.32,1.6-0.55C13.18,21.99,14.97,23,17,23c3.31,0,6-2.69,6-6C23,14.03,20.84,11.57,18,11.09z M11,17 c0,0.56,0.08,1.11,0.23,1.62c-0.24,0.11-0.48,0.22-0.73,0.3c-3.17-1-5.5-4.24-5.5-7.74v-3.6l5.5-2.4l5.5,2.4v3.51 C13.16,11.57,11,14.03,11,17z M17,21c-2.21,0-4-1.79-4-4c0-2.21,1.79-4,4-4s4,1.79,4,4C21,19.21,19.21,21,17,21z" fill-rule="evenodd"/></g></g></svg>
+          <p class="admin-icon-text">YOU ARE THE HOST</p>
+        </div>
+
+        <div class="centered-horizontal margin-5 create-lobby">
+          <button id="start-button" class="sound-click">START ROUND</button>
+        </div>
+      </div>
+        <div class="centered-horizontal margin-5 leave-lobby">
+          <button id="leave-button" class="sound-click">LEAVE LOBBY</button>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="lobby-queue-draw-menu" id="draw-menu" style="display: none;">
+    
+  </div>
+
+  <div class="round-phrase-menu" id="round-phrase-menu" style="display: none;">
+    <h1><div class="centered-text centered-horizontal padded" id="phrase-input-text"></div></h1>
+    <h3 class="centered-text">Give a phrase for everyone to guess, keep it under 20 letters!</h3>
+    <div class="keyboard">
+      <div class="keyboard-content" id="keyboard-phrase">
+        <div class="row row1">
+          <div class="key sound-click">Q</div>
+          <div class="key sound-click">W</div>
+          <div class="key sound-click">E</div>
+          <div class="key sound-click">R</div>
+          <div class="key sound-click">T</div>
+          <div class="key sound-click">Y</div>
+          <div class="key sound-click">U</div>
+          <div class="key sound-click">I</div>
+          <div class="key sound-click">O</div>
+          <div class="key sound-click">P</div>
+        </div>
+        <div class="row row2">
+          <div class="key sound-click">A</div>
+          <div class="key sound-click">S</div>
+          <div class="key sound-click">D</div>
+          <div class="key sound-click">F</div>
+          <div class="key sound-click">G</div>
+          <div class="key sound-click">H</div>
+          <div class="key sound-click">J</div>
+          <div class="key sound-click">K</div>
+          <div class="key sound-click">L</div>
+        </div>
+        <div class="row row3">
+          <div class="key sound-click">Z</div>
+          <div class="key sound-click">X</div>
+          <div class="key sound-click">C</div>
+          <div class="key sound-click">V</div>
+          <div class="key sound-click">B</div>
+          <div class="key sound-click">N</div>
+          <div class="key sound-click">M</div>
+        </div>
+        <div class="row row4">
+          <div class="key sound-click">[_]</div><div class="key sound-click" style="width: 15vh;">BACKSPACE</div><div class="key sound-click" style="width: 15vh;">SUBMIT</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="round-word-menu" id="round-word-menu" style="display: none;">
+  </div>
+
+  <div class="round-guess-menu" id="round-guess-menu" style="display: none;">
+    <div class="keyboard">
+      <div class="keyboard-content" id="keyboard-guess">
+        <h3 class="centered-text">Pick a letter!</h3>
+        <div class="row row1">
+          <div class="key sound-click">Q</div>
+          <div class="key sound-click">W</div>
+          <div class="key sound-click">E</div>
+          <div class="key sound-click">R</div>
+          <div class="key sound-click">T</div>
+          <div class="key sound-click">Y</div>
+          <div class="key sound-click">U</div>
+          <div class="key sound-click">I</div>
+          <div class="key sound-click">O</div>
+          <div class="key sound-click">P</div>
+        </div>
+        <div class="row row2">
+          <div class="key sound-click">A</div>
+          <div class="key sound-click">S</div>
+          <div class="key sound-click">D</div>
+          <div class="key sound-click">F</div>
+          <div class="key sound-click">G</div>
+          <div class="key sound-click">H</div>
+          <div class="key sound-click">J</div>
+          <div class="key sound-click">K</div>
+          <div class="key sound-click">L</div>
+        </div>
+        <div class="row row3">
+          <div class="key sound-click">Z</div>
+          <div class="key sound-click">X</div>
+          <div class="key sound-click">C</div>
+          <div class="key sound-click">V</div>
+          <div class="key sound-click">B</div>
+          <div class="key sound-click">N</div>
+          <div class="key sound-click">M</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="round-hangman" id="round-hangman" style="display: none;">
+    <svg width="137" height="242" viewBox="0 0 137 242" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="137" height="242" fill="transparent"/>
+    <path id="torso" d="M69.7372 176.697C70.8147 161.741 67.1294 146.917 67.1601 131.896C67.1736 125.273 67.6003 118.601 67.8159 111.979C67.9091 109.114 68.3434 106.207 68.345 103.354C68.3459 101.801 67.7956 100.502 68.1133 98.9531" stroke="#6B5BFD" stroke-width="9" stroke-linecap="round"/>
+    <path id="head" d="M73.7038 21.2894C69.8235 21.2173 66.0054 21.2178 62.2064 22.1196C58.439 23.0139 55.4661 25.4269 52.4548 27.7472C44.8465 33.6097 38.9546 40.4781 34.2296 48.8091C29.2328 57.6194 28.4507 69.8725 33.0009 79.1646C34.8253 82.8902 35.7266 85.3841 39.5446 87.6063C42.7598 89.4776 46.6508 91.8841 50.2162 92.9253C61.192 96.1307 72.387 98.347 83.8208 97.5214C95.6511 96.6672 102.083 86.0635 103.238 75.0259C104.384 64.0811 101.549 51.0692 96.6049 41.2993C92.4798 33.1488 83.9243 19.1521 73.1393 19.9308" stroke="#6B5BFD" stroke-width="9" stroke-linecap="round"/>
+    <path id="right-arm" d="M68.3001 135.085C81.9822 125.458 100.209 118.229 109.965 105.857" stroke="#6B5BFD" stroke-width="9" stroke-linecap="round"/>
+    <path id="left-arm" d="M66.3836 135.167C59.8116 133.662 53.8775 128.533 48.7462 124.425C41.9647 118.996 34.9038 113.775 27.5525 109.154" stroke="#6B5BFD" stroke-width="9" stroke-linecap="round"/>
+    <path id="left-leg" d="M68.6864 178.661C64.5157 185.477 58.9338 191.383 54.4236 197.997C51.3064 202.569 48.3812 207.21 45.492 211.932C43.5355 215.129 41.2084 220.222 37.9648 222.246" stroke="#6B5BFD" stroke-width="9" stroke-linecap="round"/>
+    <path id="right-leg" d="M69.8073 177.479C78.1522 189.199 89.0216 198.453 97.8908 209.823C101.643 214.634 106.029 219.462 109.213 224.563" stroke="#6B5BFD" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="round-menu" id="round-menu" style="display: none;">
+    <div class="game-title centered-horizontal margin-15">
+        <div class="box margin-5">
+          <h1>H</h1>
+        </div>
+        <div class="box margin-5">
+          <h1> </h1>
+        </div>
+        <div class="box margin-5">
+          <h1>N</h1>
+        </div>
+        <div class="box margin-5">
+          <h1>G</h1>
+        </div>
+        <div class="box margin-5">
+          <h1>M</h1>
+        </div>
+        <div class="box margin-5">
+          <h1> </h1>
+        </div>
+        <div class="box margin-5">
+          <h1>N</h1>
+        </div>
+    </div>
+
+    <div class="user-list" id="round-user-list">
+    </div>
+
+    <div class="round-info centered-horizontal">
+      <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#000000"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M 15 1 H 9 v 2 h 6 V 1 z h 2 z M 19.03 7.39 l 1.42 -1.42 c -0.43 -0.51 -0.9 -0.99 -1.41 -1.41 l -1.42 1.42 C 16.07 4.74 14.12 4 12 4 c -4.97 0 -9 4.03 -9 9 s 4.02 9 9 9 s 9 -4.03 9 -9 C 21 10.88 20.26 8.93 19.03 7.39 z M 12 20 c -3.87 0 -7 -3.13 -7 -7 s 3.13 -7 7 -7 s 7 3.13 7 7 S 15.87 20 12 20 z"/></g></g></g><text x="50%" y="57%" dominant-baseline="middle" text-anchor="middle" id="round-info-time">30</text></svg>
+      <div class="text-container">
+        <p id="round-info-text">TEST is choosing the hangman phrase! EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="theme-toggle-button" class="theme-toggle centered-horizontal sound-click">
+    <svg id="theme-image" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><g><rect fill="none" height="24" width="24"/></g><g><g><g><g><path d="M12,22C6.49,22,2,17.51,2,12S6.49,2,12,2s10,4.04,10,9c0,3.31-2.69,6-6,6h-1.77c-0.28,0-0.5,0.22-0.5,0.5 c0,0.12,0.05,0.23,0.13,0.33c0.41,0.47,0.64,1.06,0.64,1.67C14.5,20.88,13.38,22,12,22z M12,4c-4.41,0-8,3.59-8,8s3.59,8,8,8 c0.28,0,0.5-0.22,0.5-0.5c0-0.16-0.08-0.28-0.14-0.35c-0.41-0.46-0.63-1.05-0.63-1.65c0-1.38,1.12-2.5,2.5-2.5H16 c2.21,0,4-1.79,4-4C20,7.14,16.41,4,12,4z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></g></g></g></g></svg>
+  </div>
+
+  <p class="credits">Sounds by <a href="https://kenney.nl/">Kenney</a><br/>Created by <a href="https://typicaldevs.co/">Typical Developers</a> & <a href="https://twitter.com/raze_cat">Mio</a></p>
+
+  <script src="/js/lobby.js"></script>
+</body>
+</html>
