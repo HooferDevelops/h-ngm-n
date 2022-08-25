@@ -8,7 +8,7 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-> A multiplayer web-game that I worked on in 2019 and have decided to publicize now. Additions through pull requests are accepted!
+> A multiplayer web-game that I worked on in 2021 and have decided to publicize now. Additions through pull requests are accepted!
 
 ---
 
