@@ -15,6 +15,9 @@
 # Try it here!
 https://h-ngm-n.hoofydoofy.repl.co/
 
+<img src="examples/h-ngm-n1.png" alt="h-ngm-n"/>
+<img src="examples/h-ngm-n0.png" alt="h-ngm-n"/>
+
 # Pull Requests / Issues
 Feel free to do as you wish so long as it contributes something new or fixes existing problems. As far as I am aware, there is only 1-2 bugs within the codebase that I cannot remember.
 
